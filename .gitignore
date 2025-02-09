@@ -1,0 +1,43 @@
+
+# .NET backend
+back/bin/
+back/obj/
+back/*.user
+back/*.suo
+back/*.userosscache
+back/*.sln.docstates
+
+# Node.js / Vue frontend
+front/node_modules/
+front/dist/
+front/.nuxt/
+front/.vscode/
+front/.idea/
+front/.env
+front/.env.local
+front/.env.*.local
+
+# Deploy folder
+deploy/*
+!deploy/.gitkeep
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor specific files
+.idea/
+.vscode/
+
+# Logs and temporary files
+*.log
+*.log.*
+*.bak
+*.tmp
+*.swp
+
+# Package manager lock files (node_modules managed by Yarn or npm)
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
