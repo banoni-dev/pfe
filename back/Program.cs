@@ -1,6 +1,8 @@
 using back.Data;
-using back.Configurations; // Import the SwaggerConfig class
+using back.Configurations;
 using Microsoft.EntityFrameworkCore;
+using back.Services;
+using back.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,16 @@ builder.Services.AddControllersWithViews();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddScoped<Db>();
 builder.Services.AddDbContextPool<Db>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+// Register repositories
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+/*builder.Services.AddScoped<IProductRepository, ProductRepository>();*/
+/*builder.Services.AddScoped<ITierRepository, TierRepository>();*/
+
+// Register services
+builder.Services.AddScoped<IUserService, UserService>();
+/*builder.Services.AddScoped<IProductService, ProductService>();*/
+/*builder.Services.AddScoped<ITierService, TierService>();*/
 
 // Add Swagger services
 builder.Services.AddSwaggerServices();
