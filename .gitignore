@@ -18,8 +18,7 @@ front/.env.local
 front/.env.*.local
 
 # Deploy folder
-deploy/*
-!deploy/.gitkeep
+deploy/mariadb_data/
 
 # Operating System files
 .DS_Store
