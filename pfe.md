@@ -11,6 +11,7 @@ session(id, #user_id, #subscription_id, device_print)
 
 ### User
 
+
 - **POST /users**  
   Request body:  
   ```json
