@@ -20,17 +20,12 @@ namespace back.Models
         [Required, EmailAddress]
         public string Email { get; set; }
 
+        [Required, RegularExpression(@"^\d{8}$")]
+        public string Telephone { get; set; }
+
         [Required]
         public string Password { get; set; }
 
-        [Required, MaxLength(20)]
-        public string CardId { get; set; }
-
-        [Required, MaxLength(20)]
-        public string CardPassword { get; set; }
-
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal CardBalance { get; set; }
     }
 }
 
