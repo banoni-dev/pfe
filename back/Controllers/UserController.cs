@@ -23,7 +23,7 @@ namespace back.Controllers
             try
             {
                 var user = _userService.GetUserById(id);
-                return user != null ? Ok(user) : NotFound(new { message = "User not found" });
+                return user != null ? Ok(new { user }) : NotFound(new { message = "User not found" });
             }
             catch (Exception ex)
             {
@@ -38,7 +38,7 @@ namespace back.Controllers
             try
             {
                 var user = _userService.GetUserByEmail(email);
-                return user != null ? Ok(user) : NotFound(new { message = "User not found" });
+                return user != null ? Ok( new { user }) : NotFound(new { message = "User not found" });
             }
             catch (Exception ex)
             {
@@ -53,7 +53,7 @@ namespace back.Controllers
             try
             {
                 var users = _userService.GetAllUsers();
-                return Ok(users);
+                return Ok( new { users });
             }
             catch (Exception ex)
             {
@@ -68,7 +68,7 @@ namespace back.Controllers
             try
             {
                 var createdUser = _userService.CreateUser(user);
-                return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser);
+                return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, new { createdUser });
             }
             catch (Exception ex)
             {
@@ -83,7 +83,7 @@ namespace back.Controllers
             try
             {
                 var user = _userService.UpdateUser(id, updatedUser);
-                return Ok(user);
+                return Ok(new { user });
             }
             catch (Exception ex)
             {
