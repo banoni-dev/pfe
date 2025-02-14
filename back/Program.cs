@@ -16,12 +16,12 @@ builder.Services.AddDbContextPool<Db>(options => options.UseMySql(connectionStri
 // Register repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
-/*builder.Services.AddScoped<ITierRepository, TierRepository>();*/
+builder.Services.AddScoped<ITierRepository, TierRepository>();
 
 // Register services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IProductService, ProductService>();
-/*builder.Services.AddScoped<ITierService, TierService>();*/
+builder.Services.AddScoped<ITierService, TierService>();
 
 // Add Swagger services
 builder.Services.AddSwaggerServices();
