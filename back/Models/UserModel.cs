@@ -29,5 +29,4 @@ namespace back.Models
     }
 }
 
-//user(id, name, email, password,card_id,card_password,card_balance)
 
