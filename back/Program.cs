@@ -3,11 +3,18 @@ using back.Configurations;
 using Microsoft.EntityFrameworkCore;
 using back.Services;
 using back.Repositories;
+using back.Auth;  // Add this for JWT service
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Add JWT settings from configuration
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+
+// Register JWT service
+builder.Services.AddSingleton<IJwtService, JwtService>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddScoped<Db>();
@@ -34,6 +41,9 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts(); // This will not be necessary for HTTP-only setup.
 }
+
+// Enable authentication middleware
+app.UseMiddleware<AuthMiddleware>(); // Add the JWT auth middleware
 
 app.UseRouting();
 app.UseAuthorization();
