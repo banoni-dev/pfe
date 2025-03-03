@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 
+
 namespace back.Models
 {
     public class UserModel
@@ -20,13 +21,10 @@ namespace back.Models
         [Required, EmailAddress]
         public string Email { get; set; }
 
-        [Required, RegularExpression(@"^\d{8}$")]
-        public string Telephone { get; set; }
+        [Required, Phone]
+        public string Phone { get; set; }
 
-        [Required]
-        public string Password { get; set; }
-
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }
-
 
