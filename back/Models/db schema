@@ -16,4 +16,4 @@ LicenseBundle(license_order_id, option_id, created_at, last_update_at)
 
 LicenseActivation(activation_id, license_order_id, device_fingerprint, activation_date, created_at, last_update_at, is_archived)
 
-BlackliBlacklistedsted(blocked_id, ip, type, blocked_date, recovery_date, created_at, last_update_at)
+BlackListed(blocked_id, ip, type, blocked_date, recovery_date, created_at, last_update_at)

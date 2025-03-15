@@ -1,31 +1,28 @@
-
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Collections.Generic;
-
 
 namespace back.Models
 {
     public class LicenseModel
     {
         [Key]
-        public int Id { get; set; }
+        public int LicenseId { get; set; }
 
-        [Required]
-        [ForeignKey("Product")]
+        [ForeignKey("ProductModel")]
         public int ProductId { get; set; }
-        public ProductModel Product { get; set; }
 
-        [Required]
         public int MaxDevices { get; set; }
-
-        [Required]
         public int Duration { get; set; }
+        public int GracePeriod { get; set; }
 
-        [Required]
+        public string PublicKey { get; set; }
+
         public decimal Price { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime LastUpdateAt { get; set; } = DateTime.UtcNow;
+
+        public bool IsArchived { get; set; } = false;
     }
 }

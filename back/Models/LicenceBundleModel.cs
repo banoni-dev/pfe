@@ -4,22 +4,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace back.Models
 {
-    public class LicenseActivationModel
+    public class LicenseBundleModel
     {
         [Key]
-        public int ActivationId { get; set; }
+        public int LicenseBundleId { get; set; }
 
         [ForeignKey("LicenseOrderModel")]
         public int LicenseOrderId { get; set; }
 
-        [Required, MaxLength(100)]
-        public string DeviceFingerprint { get; set; }
-
-        public DateTime ActivationDate { get; set; }
+        [ForeignKey("LicenseOptionModel")]
+        public int OptionId { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime LastUpdateAt { get; set; } = DateTime.UtcNow;
-
-        public bool IsArchived { get; set; } = false;
     }
 }

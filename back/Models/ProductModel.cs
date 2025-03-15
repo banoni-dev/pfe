@@ -30,4 +30,4 @@ namespace back.Models
 
         public bool IsArchived { get; set; } = false;
         }
-    }
+}

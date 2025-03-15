@@ -1,30 +1,29 @@
-
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Collections.Generic;
-
 
 namespace back.Models
 {
     public class UserModel
     {
         [Key]
-        public int Id { get; set; }
+        public int UserId { get; set; }
 
-        [Required, MaxLength(50)]
+        [Required, MaxLength(100)]
         public string FirstName { get; set; }
 
-        [Required, MaxLength(50)]
+        [Required, MaxLength(100)]
         public string LastName { get; set; }
 
-        [Required, EmailAddress]
+        [Required, MaxLength(255)]
         public string Email { get; set; }
 
-        [Required, Phone]
+        [Required, MaxLength(20)]
         public string Phone { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime LastUpdateAt { get; set; } = DateTime.UtcNow;
+
+        public bool IsArchived { get; set; } = false;
     }
 }
-
