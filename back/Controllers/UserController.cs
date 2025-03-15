@@ -1,79 +1,109 @@
 using Microsoft.AspNetCore.Mvc;
 using back.Models;
-using System.Collections.Generic;
-using System.Linq;
+using back.Services;
+using System;
 
 namespace back.Controllers
 {
     [ApiController]
-    [Route("user")]
+    [Route("api/user")]
     public class UserController : ControllerBase
     {
-        private static List<UserModel> users = new List<UserModel>();
-        private static int nextId = 1;
+        private readonly IUserService _userService;
 
-        // GET /user/id/{id} → Retrieve a user by their ID
-        [HttpGet("id/{id}")]
-        public IActionResult GetUserById(int id)
+        public UserController(IUserService userService)
         {
-            var user = users.FirstOrDefault(u => u.Id == id);
-            return user != null ? Ok(user) : NotFound(new { message = "User not found" });
+            _userService = userService;
         }
 
-        // GET /user/email/{email} → Retrieve a user by their email
+        // GET: api/user/{id}
+        [HttpGet("{id}")]
+        public IActionResult GetUserById(int id)
+        {
+            try
+            {
+                var user = _userService.GetUserById(id);
+                return user != null ? Ok(new { user }) : NotFound(new { message = "User not found" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        // GET: api/user/email/{email}
         [HttpGet("email/{email}")]
         public IActionResult GetUserByEmail(string email)
         {
-            var user = users.FirstOrDefault(u => u.Email == email);
-            return user != null ? Ok(user) : NotFound(new { message = "User not found" });
+            try
+            {
+                var user = _userService.GetUserByEmail(email);
+                return user != null ? Ok( new { user }) : NotFound(new { message = "User not found" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
-        // GET /user/all → Retrieve all users
+        // GET: api/user/all
         [HttpGet("all")]
         public IActionResult GetAllUsers()
         {
-            return Ok(new { users });
+            try
+            {
+                var users = _userService.GetAllUsers();
+                return Ok( new { users });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
-        // POST /user → Create a new user
+        // POST: api/user
         [HttpPost]
         public IActionResult CreateUser([FromBody] UserModel user)
         {
-            if (users.Any(u => u.Email == user.Email))
-                return Conflict(new { message = "Email already exists" });
-
-            user.Id = nextId++;
-            users.Add(user);
-
-            return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
+            try
+            {
+                var createdUser = _userService.CreateUser(user);
+                return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, new { createdUser });
+            }
+            catch (Exception ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
         }
 
-        // PUT /user/{id} → Update user details
+        // PUT: api/user/{id}
         [HttpPut("{id}")]
         public IActionResult UpdateUser(int id, [FromBody] UserModel updatedUser)
         {
-            var user = users.FirstOrDefault(u => u.Id == id);
-            if (user == null)
-                return NotFound(new { message = "User not found" });
-
-            user.FirstName = updatedUser.FirstName;
-            user.LastName = updatedUser.LastName;
-            user.Email = updatedUser.Email;
-            user.Telephone = updatedUser.Telephone;
-
-            return Ok(user);
+            try
+            {
+                var user = _userService.UpdateUser(id, updatedUser);
+                return Ok(new { user });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
         }
 
-        // DELETE /user/{id} → Delete a user
+        // DELETE: api/user/{id}
         [HttpDelete("{id}")]
         public IActionResult DeleteUser(int id)
         {
-            var user = users.FirstOrDefault(u => u.Id == id);
-            if (user == null)
-                return NotFound(new { message = "User not found" });
-
-            users.Remove(user);
-            return NoContent();
+            try
+            {
+                _userService.DeleteUser(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
         }
     }
 }

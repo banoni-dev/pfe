@@ -4,22 +4,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace back.Models
 {
-    public class UserModel
+    public class LicenseOptionModel
     {
         [Key]
-        public int UserId { get; set; }
+        public int OptionId { get; set; }
+
+        [ForeignKey("LicenseModel")]
+        public int LicenseId { get; set; }
 
         [Required, MaxLength(100)]
-        public string FirstName { get; set; }
+        public string OptionName { get; set; }
 
-        [Required, MaxLength(100)]
-        public string LastName { get; set; }
+        [MaxLength(500)]
+        public string Description { get; set; }
 
-        [Required, MaxLength(255)]
-        public string Email { get; set; }
-
-        [Required, MaxLength(20)]
-        public string Phone { get; set; }
+        public decimal Price { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime LastUpdateAt { get; set; } = DateTime.UtcNow;

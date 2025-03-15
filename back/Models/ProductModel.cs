@@ -3,8 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 
-
-
 namespace back.Models
 {
     public class ProductModel
@@ -12,8 +10,7 @@ namespace back.Models
         public enum ProductTypeEnum
         {
             Licence,
-            Subscription,
-            Both
+            Subscription
         }
 
         [Key]
@@ -28,8 +25,9 @@ namespace back.Models
         [Required]
         public ProductTypeEnum ProductType { get; set; }
 
-        [Required, Column(TypeName = "decimal(18,2)")]
-        public decimal Price { get; set; }
-    }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
+        public bool IsArchived { get; set; } = false;
+        }
 }

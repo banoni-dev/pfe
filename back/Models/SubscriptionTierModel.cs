@@ -4,22 +4,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace back.Models
 {
-    public class UserModel
+    public class SubscriptionTierModel
     {
         [Key]
-        public int UserId { get; set; }
+        public int TierId { get; set; }
+
+        [ForeignKey("ProductModel")]
+        public int ProductId { get; set; }
 
         [Required, MaxLength(100)]
-        public string FirstName { get; set; }
+        public string TierName { get; set; }
 
-        [Required, MaxLength(100)]
-        public string LastName { get; set; }
+        public int Duration { get; set; }
+        public int GracePeriod { get; set; }
 
-        [Required, MaxLength(255)]
-        public string Email { get; set; }
-
-        [Required, MaxLength(20)]
-        public string Phone { get; set; }
+        public decimal Price { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime LastUpdateAt { get; set; } = DateTime.UtcNow;
