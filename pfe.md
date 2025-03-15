@@ -1,199 +1,229 @@
-# Schema
+# API Documentation
 
-user(id, name, email, password, card_id, card_password, card_balance)  
-product(id, name, price, type)  
-tier(id, name, price, max_devices, duration, #prod_id)  
-transaction(id, #user_id, #tier_id, amount, date)  
-subscription(id, #user_id, #tier_id, start_date, next_due_date, status, device_count, key)  
-session(id, #user_id, #subscription_id, device_print)  
+## Users
 
-# API Endpoints
+### Create User
+**POST /users**
+```json
+{
+  "first_name": "John",
+  "last_name": "Doe",
+  "email": "john@example.com",
+  "phone": "+123456789"
+}
+```
+**Response:**
+```json
+{
+  "user_id": 1,
+  "created_at": "2024-08-22T12:00:00Z",
+  "last_update_at": "2024-08-22T12:00:00Z",
+  "is_archived": false
+}
+```
 
-### User
+### Get User
+**GET /users/{user_id}**
 
+### Update User
+**PUT /users/{user_id}**
+```json
+{
+  "first_name": "Jane",
+  "email": "jane@example.com"
+}
+```
 
-- **POST /users**  
-  Request body:  
-  ```json
-  { 
-    "id": 1, 
-    "name": "John Doe", 
-    "email": "john@example.com", 
-    "password": "hashed_password", 
-    "card_id": "123456", 
-    "card_password": "securepass", 
-    "card_balance": 100.0
-  }
-  ```  
-  Function: `createUser`
-
-- **GET /users/{id}**  
-  Function: `getUserById`
-
-- **PUT /users/{id}**  
-  Request body:  
-  ```json
-  {
-    "name": "Updated Name",
-    "email": "new@example.com"
-  }
-  ```  
-  Function: `updateUser`
-
-- **DELETE /users/{id}**  
-  Function: `deleteUser`
+### Delete User (Archive)
+**DELETE /users/{user_id}**
 
 ---
 
-### Product
+## Products
 
-- **POST /products**  
-  Request body:  
-  ```json
-  { 
-    "id": 1, 
-    "name": "Premium Subscription", 
-    "price": 50.0, 
-    "type": "subscription"
-  }
-  ```  
-  Function: `createProduct`
+### Create Product
+**POST /products**
+```json
+{
+  "product_name": "Premium Software",
+  "product_type": "Subscription"
+}
+```
 
-- **GET /products/{id}**  
-  Function: `getProductById`
+### Get Product
+**GET /products/{product_id}**
 
-- **PUT /products/{id}**  
-  Request body:  
-  ```json
-  { 
-    "name": "Updated Product", 
-    "price": 60.0 
-  }
-  ```  
-  Function: `updateProduct`
+### Update Product
+**PUT /products/{product_id}**
+```json
+{
+  "product_name": "Updated Software"
+}
+```
 
-- **DELETE /products/{id}**  
-  Function: `deleteProduct`
+### Delete Product (Archive)
+**DELETE /products/{product_id}**
 
 ---
 
-### Tier
+## Subscription Tiers
 
-- **POST /tiers**  
-  Request body:  
-  ```json
-  { 
-    "id": 1, 
-    "name": "Gold", 
-    "price": 100.0, 
-    "max_devices": 5, 
-    "duration": 30, 
-    "prod_id": 1 
-  }
-  ```  
-  Function: `createTier`
+### Create Subscription Tier
+**POST /subscription-tiers**
+```json
+{
+  "product_id": 1,
+  "tier_name": "Gold",
+  "duration": 30,
+  "grace_period": 5,
+  "price": 100.0
+}
+```
 
-- **GET /tiers/{id}**  
-  Function: `getTierById`
+### Get Subscription Tier
+**GET /subscription-tiers/{tier_id}**
 
-- **PUT /tiers/{id}**  
-  Request body:  
-  ```json
-  { 
-    "name": "Platinum", 
-    "price": 150.0, 
-    "max_devices": 10, 
-    "duration": 60 
-  }
-  ```  
-  Function: `updateTier`
+### Update Subscription Tier
+**PUT /subscription-tiers/{tier_id}**
+```json
+{
+  "tier_name": "Platinum"
+}
+```
 
-- **DELETE /tiers/{id}**  
-  Function: `deleteTier`
+### Delete Subscription Tier (Archive)
+**DELETE /subscription-tiers/{tier_id}**
 
 ---
 
-### Transaction
+## Subscription Orders
 
-- **POST /transactions**  
-  Request body:  
-  ```json
-  { 
-    "id": 1, 
-    "user_id": 1, 
-    "tier_id": 1, 
-    "amount": 100.0, 
-    "date": "2024-08-22" 
-  }
-  ```  
-  Function: `createTransaction`
+### Create Subscription Order
+**POST /subscription-orders**
+```json
+{
+  "subscription_tier_id": 1,
+  "user_id": 1,
+  "purchase_date": "2024-08-22T12:00:00Z",
+  "start_date": "2024-08-23T00:00:00Z",
+  "end_date": "2024-09-23T00:00:00Z",
+  "status": "active"
+}
+```
 
-- **GET /transactions/{id}**  
-  Function: `getTransactionById`
+### Get Subscription Order
+**GET /subscription-orders/{subscription_id}**
 
-- **GET /transactions/user/{user_id}**  
-  Function: `getUserTransactions`
+### Update Subscription Order
+**PUT /subscription-orders/{subscription_id}**
+```json
+{
+  "status": "expired"
+}
+```
 
----
-
-### Subscription
-
-- **POST /subscriptions**  
-  Request body:  
-  ```json
-  { 
-    "id": 1, 
-    "user_id": 1, 
-    "tier_id": 1, 
-    "start_date": "2024-08-22", 
-    "next_due_date": "2024-09-22", 
-    "status": "active", 
-    "device_count": 2, 
-    "key": "ABC123XYZ" 
-  }
-  ```  
-  Function: `createSubscription`
-
-- **GET /subscriptions/{id}**  
-  Function: `getSubscriptionById`
-
-- **GET /subscriptions/user/{user_id}**  
-  Function: `getUserSubscriptions`
-
-- **PUT /subscriptions/{id}**  
-  Request body:  
-  ```json
-  { 
-    "status": "expired" 
-  }
-  ```  
-  Function: `updateSubscriptionStatus`
-
-- **DELETE /subscriptions/{id}**  
-  Function: `cancelSubscription`
+### Delete Subscription Order (Archive)
+**DELETE /subscription-orders/{subscription_id}**
 
 ---
 
-### Session
+## Licenses
 
-- **POST /sessions**  
-  Request body:  
-  ```json
-  { 
-    "id": 1, 
-    "user_id": 1, 
-    "subscription_id": 1, 
-    "device_print": "device-fingerprint" 
-  }
-  ```  
-  Function: `createSession`
+### Create License
+**POST /licenses**
+```json
+{
+  "product_id": 1,
+  "max_devices": 5,
+  "duration": 365,
+  "grace_period": 30,
+  "public_key": "abcd1234",
+  "price": 200.0
+}
+```
 
-- **GET /sessions/{id}**  
-  Function: `getSessionById`
+### Get License
+**GET /licenses/{license_id}**
 
-- **GET /sessions/user/{user_id}**  
-  Function: `getUserSessions`
+### Update License
+**PUT /licenses/{license_id}**
+```json
+{
+  "price": 250.0
+}
+```
 
-- **DELETE /sessions/{id}**  
-  Function: `deleteSession`
+### Delete License (Archive)
+**DELETE /licenses/{license_id}**
+
+---
+
+## License Orders
+
+### Create License Order
+**POST /license-orders**
+```json
+{
+  "user_id": 1,
+  "license_id": 1,
+  "private_key": "encrypted_key",
+  "purchase_date": "2024-08-22T12:00:00Z",
+  "status": "active"
+}
+```
+
+### Get License Order
+**GET /license-orders/{license_order_id}**
+
+### Update License Order
+**PUT /license-orders/{license_order_id}**
+```json
+{
+  "status": "expired"
+}
+```
+
+### Delete License Order (Archive)
+**DELETE /license-orders/{license_order_id}**
+
+---
+
+## License Activations
+
+### Create License Activation
+**POST /license-activations**
+```json
+{
+  "license_order_id": 1,
+  "device_fingerprint": "device_123",
+  "activation_date": "2024-08-22T12:00:00Z"
+}
+```
+
+### Get License Activation
+**GET /license-activations/{activation_id}**
+
+### Delete License Activation (Archive)
+**DELETE /license-activations/{activation_id}**
+
+---
+
+## Blacklisted IPs
+
+### Blacklist IP
+**POST /blacklisted**
+```json
+{
+  "ip": "192.168.1.1",
+  "type": "fraud",
+  "blocked_date": "2024-08-22T12:00:00Z",
+  "recovery_date": "2024-09-22T12:00:00Z"
+}
+```
+
+### Get Blacklisted IP
+**GET /blacklisted/{blocked_id}**
+
+### Remove Blacklist
+**DELETE /blacklisted/{blocked_id}**
 

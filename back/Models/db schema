@@ -1,1 +1,19 @@
+Product(product_id, product_name, product_type, created_at, last_update_at, is_archived)
 
+Users(user_id, first_name, last_name, email, phone, created_at, last_update_at, is_archived)
+
+SubscriptionTier(tier_id, product_id, tier_name, duration, grace_period, price, created_at, last_update_at, is_archived)
+
+SubscriptionOrder(subscription_tier_id, user_id, purchase_date, start_date, end_date, status, created_at, last_update_at, is_archived)
+
+License(license_id, product_id, max_devices, duration, grace_period, public_key, price, created_at, last_update_at, is_archived)
+
+LicenseOption(option_id, license_id, option_name, description, price, created_at, last_update_at, is_archived)
+
+LicenseOrder(license_order_id, user_id, license_id, private_key, purchase_date, status, created_at, last_update_at, is_archived)
+
+LicenseBundle(license_order_id, option_id, created_at, last_update_at)
+
+LicenseActivation(activation_id, license_order_id, device_fingerprint, activation_date, created_at, last_update_at, is_archived)
+
+BlackliBlacklistedsted(blocked_id, ip, type, blocked_date, recovery_date, created_at, last_update_at)
